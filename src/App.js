@@ -9,7 +9,7 @@ import Footer from './components/Footer/footer';
 
 const Layout = () => {
   return (
-    <div>
+    <div className='text-white'>
       <Navbar />
       <Outlet />
       <Footer />
