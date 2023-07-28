@@ -2,16 +2,16 @@ import React, { useEffect, useState } from 'react'
 import { Button, Menu, MenuItem } from '@mui/material';
 import { Link } from 'react-router-dom'
 
-import { KeyboardArrowDown, Search, PersonOutlineOutlined, FavoriteBorderOutlined, ShoppingCartOutlined, Menu as MenuIcon, Language, People, Person, ShowChart, NewReleases } from '@mui/icons-material'
+import { Search, PersonOutlineOutlined, FavoriteBorderOutlined, ShoppingCartOutlined, Menu as MenuIcon, Language, People, Person, ShowChart, NewReleases, House } from '@mui/icons-material'
 import { BsPlaystation, BsXbox, BsNintendoSwitch } from 'react-icons/bs';
 
 const Navbar = () => {
-  const [isDesktop, setIsDesktop] = useState(window.innerWidth <= 1100);
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth <= 1200);
   const [anchorEl, setAnchorEl] = useState(null);
 
   useEffect(() => {
     const handleResize = () => {
-      setIsDesktop(window.innerWidth <= 1100);
+      setIsDesktop(window.innerWidth <= 1200);
     };
 
     window.addEventListener('resize', handleResize);
@@ -31,77 +31,70 @@ const Navbar = () => {
     setAnchorEl(null);
   };
 
+  const categories = [
+    { id: 9, icon: <House />, text: 'Menu inicial', link: '/' },
+    { id: 1, icon: <NewReleases />, text: 'Novidades', link: '/produtos/1' },
+    { id: 2, icon: <ShowChart />, text: 'Mais vendidos', link: '/produtos/2' },
+    { id: 3, icon: <Person />, text: 'Um jogador', link: '/produtos/3' },
+    { id: 4, icon: <People />, text: 'Multijogador', link: '/produtos/4' },
+    { id: 5, icon: <Language />, text: 'Online', link: '/produtos/5' },
+    { id: 6, icon: <BsPlaystation className='h-6 w-6' />, text: 'Playstation', link: '/produtos/6' },
+    { id: 7, icon: <BsXbox className='h-6 w-6' />, text: 'Xbox', link: '/produtos/7' },
+    { id: 8, icon: <BsNintendoSwitch className='h-6 w-6' />, text: 'Nintendo', link: '/produtos/8' },
+  ];
+
   return (
-    <div className='bg-[#1f1f1f] py-2'> {/* Navbar */}
-      <div className='flex justify-between'> {/* Wrapper */}
-        <div className='flex items-center gap-x-4'>  {/* Left */}
+    <div className='bg-[#1f1f1f] py-2'>
+      <div className='flex justify-between'>
+        <div className='flex items-center gap-x-4'>
 
-          <div className='ml-2'> {/* Item */}
-            <Link to="/"><img className='w-20 h-20' src="images/logo.png" alt="Gameland" /></Link>
+          <div className='ml-2'>
+            <Link to="/"><img className='w-14 h-14 sm:w-20 sm:h-20' src="images/logo.png" alt="Gameland" /></Link>
           </div>
 
-          <div className='flex'> {/* Item */}
+          <div className='flex'>
             <img className='w-9 h-6' src="images/brasil.png" alt="Bandeira do Brasil" />
-            <KeyboardArrowDown className='cursor-pointer' />
           </div>
-          <div className='-ml-2'> {/* Item */}
+          <div className='-ml-2 text-[12px]'>
             <span>BRL</span>
           </div>
 
           {isDesktop ? (
             <>
-              <Button id="basic-button" aria-controls={open ? 'basic-menu' : undefined} aria-haspopup="true" aria-expanded={open ? 'true' : undefined} onClick={handleClick}>
-                <MenuIcon className='text-white' />
-              </Button>
+              <div className='hover:bg-[#2d2d2d] rounded-md -ml-3'>
+                <Button id="basic-button" aria-controls={open ? 'basic-menu' : undefined} aria-haspopup="true" aria-expanded={open ? 'true' : undefined} onClick={handleClick}>
+                    <MenuIcon className='text-white' />
+                </Button>
+              </div>
               <Menu id="basic-menu" anchorEl={anchorEl} open={open} onClose={handleClose}
                 MenuListProps={{
                   'aria-labelledby': 'basic-button',
                 }}
               >
                   <div className='bg-[#2d2d2d] text-white p-6'>
-                    <MenuItem onClick={handleClose}><Link className='flex gap-x-3' to="/produtos/1"><NewReleases />Novidades</Link></MenuItem>
-                    <MenuItem onClick={handleClose}><Link className='flex gap-x-3' to="/produtos/2"><ShowChart />Mais vendidos</Link></MenuItem>
-                    <MenuItem onClick={handleClose}><Link className='flex gap-x-3' to="/produtos/3"><Person />Um jogador</Link></MenuItem>
-                    <MenuItem onClick={handleClose}><Link className='flex gap-x-3' to="/produtos/4"><People />Multijogador</Link></MenuItem>
-                    <MenuItem onClick={handleClose}><Link className='flex gap-x-3' to="/produtos/5"><Language />Online</Link></MenuItem>
-                    <MenuItem onClick={handleClose}><Link className='flex gap-x-3' to="/produtos/6"><BsPlaystation className='h-6 w-6' />Playstation</Link></MenuItem>
-                    <MenuItem onClick={handleClose}><Link className='flex gap-x-3' to="/produtos/7"><BsXbox className='h-6 w-6' />Xbox</Link></MenuItem>
-                    <MenuItem onClick={handleClose}><Link className='flex gap-x-3' to="/produtos/8"><BsNintendoSwitch className='h-6 w-6' />Nintendo</Link></MenuItem>
+                    {categories.map((category) => (
+                      <Link key={category.id} to={category.link}>
+                        <MenuItem className='flex gap-x-3 w-full' onClick={handleClose}>
+                            {category.icon}
+                            {category.text}
+                        </MenuItem>
+                      </Link>
+                    ))}
                   </div>
               </Menu>
             </>
           ) : (
             <>
-              <div>
-                <Link to="/produtos/1">Novidades</Link>
-              </div>
-              <div>
-                <Link to="/produtos/2">Mais vendidos</Link>
-              </div>
-              <div>
-                <Link to="/produtos/3">Um jogador</Link>
-              </div>
-              <div>
-                <Link to="/produtos/4">Multijogador</Link>
-              </div>
-              <div>
-                <Link to="/produtos/5">Online</Link>
-              </div>
-              <div>
-                <Link to="/produtos/6">Playstation</Link>
-              </div>
-              <div>
-                <Link to="/produtos/7">Xbox</Link>
-              </div>
-              <div>
-                {/* Item */}
-                <Link to="/produtos/8">Nintendo</Link>
-              </div>
+              {categories.map((category) => (
+                <div key={category.id}>
+                  <Link to={category.link}>{category.text}</Link>
+                </div>
+              ))}
             </>
           )}
 
         </div>
-        <div className='flex items-center mr-4'>  {/* Right */}
+        <div className='flex items-center mr-4'>
             <div className='flex gap-x-4 cursor-pointer'>
               <Search />
               <PersonOutlineOutlined />
