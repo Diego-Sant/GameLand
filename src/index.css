@@ -11,6 +11,10 @@ li:hover {
     background-color: #1f1f1f !important;
 }
 
+.img-container {
+    transition: transform 0.3s ease;
+}
+
 .img-container:hover .img2 {
     z-index: 20;
 }

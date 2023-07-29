@@ -27,8 +27,8 @@ const Footer = () => {
         </div>
         <div className='flex flex-col md:mr-2 gap-y-2'> 
           <h1 className='font-bold text-xl mb-2'>Contatos</h1>
-          <p>+55 (21) 99679-0499</p>
-          <p>diegossantana071@gmail.com</p>
+          <Link className='flex items-center gap-x-2' to="https://wa.me/5521996790499" target='_blank'><p>+55 (21) 99679-0499</p></Link>
+          <Link className='flex items-center gap-x-2' to="mailto:diegossantana071@gmail.com" target='_blank'><p>diegossantana071@gmail.com</p></Link>
           <div>
             <Link className='flex items-center gap-x-2' to="https://www.linkedin.com/in/diego-de-souza-sant-ana-7784b821b/" target='_blank'><BsLinkedin /> Linkedin</Link>
           </div>

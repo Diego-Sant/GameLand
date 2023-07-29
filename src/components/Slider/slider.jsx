@@ -19,7 +19,7 @@ const Slider = () => {
     }
 
   return (
-    <div className='w-[100vw] h-[calc(100vh-80px)] relative overflow-hidden'>
+    <div className='w-full h-[calc(100vh-80px)] relative overflow-hidden'>
         <div className='flex w-[300vw] h-[100%] transition-all duration-1000 ease-in-out ' style={{transform:`translateX(-${currentSlide * 100}vw)`}}>
             <img className='w-[100vw] h-[100%] object-cover' style={{objectPosition:"75% 25%"}} src={data[0]} alt="Red Dead Redemption 2" />
             <img className='w-[100vw] h-[100%] object-cover' src={data[1]} alt="Ratchet & Clank: Uma dimensão à parte" />
