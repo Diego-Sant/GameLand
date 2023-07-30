@@ -18,3 +18,16 @@ li:hover {
 .img-container:hover .img2 {
     z-index: 20;
 }
+
+input[type="range"] {
+    accent-color: #8900ff;
+}
+
+input[type="checkbox"]{
+    accent-color: #8900ff;
+}
+
+input[type="radio"]{
+    accent-color: #8900ff;
+}
+  
