@@ -4,10 +4,14 @@ import { Link } from 'react-router-dom'
 
 import { Search, PersonOutlineOutlined, FavoriteBorderOutlined, ShoppingCartOutlined, Menu as MenuIcon, Language, People, Person, ShowChart, NewReleases, House } from '@mui/icons-material'
 import { BsPlaystation, BsXbox, BsNintendoSwitch } from 'react-icons/bs';
+import Cart from '../Cart/cart';
+import Favorite from '../Favorite/favorite';
 
 const Navbar = () => {
   const [isDesktop, setIsDesktop] = useState(window.innerWidth <= 1200);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [cartOpen, setCartOpen] = useState(false);
+  const [favoriteOpen, setFavoriteOpen] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -29,6 +33,18 @@ const Navbar = () => {
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleCartClick = () => {
+    setCartOpen(true);
+    setFavoriteOpen(false);
+    setCartOpen(!cartOpen);
+  };
+
+  const handleFavoriteClick = () => {
+    setFavoriteOpen(true);
+    setCartOpen(false);
+    setFavoriteOpen(!favoriteOpen);
   };
 
   const categories = [
@@ -98,14 +114,18 @@ const Navbar = () => {
             <div className='flex gap-x-4 cursor-pointer'>
               <Search />
               <PersonOutlineOutlined />
-              <FavoriteBorderOutlined />
-              <div className='relative'>
+              <div onClick={handleFavoriteClick}>
+                <FavoriteBorderOutlined />
+              </div>
+              <div className='relative' onClick={handleCartClick}>
                 <ShoppingCartOutlined />
                 <span className='flex justify-center items-center absolute -right-[10px] -top-[10px] text-[16px] w-[20px] h-[20px] bg-[#8900ff] rounded-full'>0</span>
               </div>
             </div>
         </div>
       </div>
+      {cartOpen && <Cart />}
+      {favoriteOpen && <Favorite />}
     </div>
   )
 }
