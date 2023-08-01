@@ -1,43 +1,32 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Card from '../Card/card'
+import axios from 'axios';
 
 const Featured = ({ type }) => {
-    const data = [
-        {
-            id: 1,
-            img: "https://images.igdb.com/igdb/image/upload/t_cover_big/co2str.png",
-            img2: "https://images.igdb.com/igdb/image/upload/t_cover_big/co5vmg.png",
-            title: "The Legend of Zelda: Tears of the Kingdom",
-            isNew: false,
-            price: 100.00,
-        },
-        {
-            id: 2,
-            img: "https://images.igdb.com/igdb/image/upload/t_cover_big/co2str.png",
-            img2: "https://images.igdb.com/igdb/image/upload/t_cover_big/co2str.png",
-            title: "Ratchet",
-            isNew: false,
-            price: 200.14,
-        },
-        {
-            id: 3,
-            img: "https://images.igdb.com/igdb/image/upload/t_cover_big/co2str.png",
-            img2: "https://images.igdb.com/igdb/image/upload/t_cover_big/co2str.png",
-            title: "Ratchet",
-            isNew: true,
-            oldPrice: 200,
-            price: 50,
-        },
-        {
-            id: 4,
-            img: "https://images.igdb.com/igdb/image/upload/t_cover_big/co2str.png",
-            img2: "https://images.igdb.com/igdb/image/upload/t_cover_big/co2str.png",
-            title: "Ratchet",
-            isNew: true,
-            oldPrice: 300.50,
-            price: 94,
-        },
-    ]
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+
+            try {
+
+                const res = await axios.get(process.env.REACT_APP_API_URL + '/produtos?populate=*', // Feito o populate pois a imagem normalmente não vem junto com os attributes
+                {
+                    headers: {
+                        Authorization: "bearer " + process.env.REACT_APP_API_TOKEN,
+                    },
+                });
+
+                setData(res.data.data)
+            } catch (error) {
+                console.log(error)
+            }
+
+        };
+        fetchData();
+    }, [])
+
+    console.log(data)
 
   return (
     <div className='bg-[#121212]'>

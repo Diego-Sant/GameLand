@@ -39,10 +39,6 @@ const Products = () => {
                 <label className="text-sm sm:text-[1rem]" htmlFor="6">Cartas/Tabuleiro</label>
               </div>
               <div>
-                <input type="checkbox" id='7' value={7} />
-                <label className="text-sm sm:text-[1rem]" htmlFor="7">Casual</label>
-              </div>
-              <div>
                 <input type="checkbox" id='8' value={8} />
                 <label className="text-sm sm:text-[1rem]" htmlFor="8">Corrida</label>
               </div>
@@ -66,11 +62,15 @@ const Products = () => {
                 <input type="checkbox" id='26' value={26} />
                 <label className="text-sm sm:text-[1rem]" htmlFor="26">Hack & Slash</label>
               </div>
+              <div>
+                <input type="checkbox" id='7' value={7} />
+                <label className="text-sm sm:text-[1rem]" htmlFor="7">Indie</label>
+              </div>
             </div>
             <div>
               <div>
                 <input type="checkbox" id='12' value={12} />
-                <label className="text-sm sm:text-[1rem]" htmlFor="12">Luta e Artes Marciais</label>
+                <label className="text-sm sm:text-[1rem]" htmlFor="12">Luta/Batalha</label>
               </div>
               <div>
                 <input type="checkbox" id='13' value={13} />
