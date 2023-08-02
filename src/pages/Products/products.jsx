@@ -1,12 +1,26 @@
 import React, { useState } from 'react'
 import List from '../../components/List/list'
 import { Link, useParams } from 'react-router-dom'
+import useFetch from '../../hooks/useFetch'
 
 const Products = () => {
   const [maxPrice, setMaxPrice] = useState(400)
   const [sort, setSort] = useState(null);
+  const [selectedSubCats, setSelectedSubCats] = useState([])
 
   const categoryId = parseInt(useParams().id)
+
+  const { data, loading, error } = useFetch(`/sub-categorias?[filters][categorias][id][$eq]=${categoryId}`)
+  const { gameMode } = useFetch(`/game-modes?[filters][categorias][id][$eq]=${categoryId}`)
+
+  console.log(gameMode)
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+    const isChecked = e.target.checked;
+
+    setSelectedSubCats(isChecked ? [...selectedSubCats, value] : selectedSubCats.filter((item) => item !== value)
+  )}
 
   return (
     <div className='flex bg-[#121212] py-[30px] px-[50px]'>
@@ -14,128 +28,29 @@ const Products = () => {
       <h2 className='font-bold mb-2'>Categorias</h2>
         <div className='mb-4 flex flex-col xl:flex-row gap-x-4'>
             <div>
-              <div>
-                <input type="checkbox" id='1' value={1} />
-                <label className="text-sm sm:text-[1rem]" htmlFor="1">Ação</label>
-              </div>
-              <div>
-                <input type="checkbox" id='2' value={2} />
-                <label className="text-sm sm:text-[1rem]" htmlFor="2">Agricultura e Crafting</label>
-              </div>
-              <div>
-                <input type="checkbox" id='3' value={3} />
-                <label className="text-sm sm:text-[1rem]" htmlFor="3">Anime</label>
-              </div>
-              <div>
-                <input type="checkbox" id='4' value={4} />
-                <label className="text-sm sm:text-[1rem]" htmlFor="4">Arcade</label>
-              </div>
-              <div>
-                <input type="checkbox" id='5' value={5} />
-                <label className="text-sm sm:text-[1rem]" htmlFor="5">Aventura</label>
-              </div>
-              <div>
-                <input type="checkbox" id='6' value={6} />
-                <label className="text-sm sm:text-[1rem]" htmlFor="6">Cartas/Tabuleiro</label>
-              </div>
-              <div>
-                <input type="checkbox" id='8' value={8} />
-                <label className="text-sm sm:text-[1rem]" htmlFor="8">Corrida</label>
-              </div>
-              <div>
-                <input type="checkbox" id='9' value={9} />
-                <label className="text-sm sm:text-[1rem]" htmlFor="9">Estratégia</label>
-              </div>
-              <div>
-                <input type="checkbox" id='10' value={10} />
-                <label className="text-sm sm:text-[1rem]" htmlFor="10">Espaço e Aviação</label>
-              </div>
-              <div>
-                <input type="checkbox" id='11' value={11} />
-                <label className="text-sm sm:text-[1rem]" htmlFor="11">Ficção Científica</label>
-              </div>
-              <div>
-                <input type="checkbox" id='25' value={25} />
-                <label className="text-sm sm:text-[1rem]" htmlFor="25">Física e Sandbox</label>
-              </div>
-              <div>
-                <input type="checkbox" id='26' value={26} />
-                <label className="text-sm sm:text-[1rem]" htmlFor="26">Hack & Slash</label>
-              </div>
-              <div>
-                <input type="checkbox" id='7' value={7} />
-                <label className="text-sm sm:text-[1rem]" htmlFor="7">Indie</label>
-              </div>
+              {data?.slice(0, 12).map((item) => (
+              <div key={item.id}>
+                <input type="checkbox" id={item.id} value={item.id} onChange={handleChange} />
+                <label className="text-sm sm:text-[1rem]" htmlFor={item.id}>{item.attributes.title}</label>
+              </div>))}
             </div>
             <div>
-              <div>
-                <input type="checkbox" id='12' value={12} />
-                <label className="text-sm sm:text-[1rem]" htmlFor="12">Luta/Batalha</label>
-              </div>
-              <div>
-                <input type="checkbox" id='13' value={13} />
-                <label className="text-sm sm:text-[1rem]" htmlFor="13">Metroidvania</label>
-              </div>
-              <div>
-                <input type="checkbox" id='14' value={14} />
-                <label className="text-sm sm:text-[1rem]" htmlFor="14">Mistério e Detetives</label>
-              </div>
-              <div>
-                <input type="checkbox" id='15' value={15} />
-                <label className="text-sm sm:text-[1rem]" htmlFor="15">Mundo aberto</label>
-              </div>
-              <div>
-                <input type="checkbox" id='16' value={16} />
-                <label className="text-sm sm:text-[1rem]" htmlFor="16">Plataformas e Runners</label>
-              </div>
-              <div>
-                <input type="checkbox" id='17' value={17} />
-                <label className="text-sm sm:text-[1rem]" htmlFor="17">RPG</label>
-              </div>
-              <div>
-                <input type="checkbox" id='18' value={18} />
-                <label className="text-sm sm:text-[1rem]" htmlFor="18">RPG por Turnos</label>
-              </div>
-              <div>
-                <input type="checkbox" id='19' value={19} />
-                <label className="text-sm sm:text-[1rem]" htmlFor="19">Roguelike</label>
-              </div>
-              <div>
-                <input type="checkbox" id='20' value={20} />
-                <label className="text-sm sm:text-[1rem]" htmlFor="20">Romance Visual</label>
-              </div>
-              <div>
-                <input type="checkbox" id='21' value={21} />
-                <label className="text-sm sm:text-[1rem]" htmlFor="21">Shoot'em Up</label>
-              </div>
-              <div>
-                <input type="checkbox" id='22' value={22} />
-                <label className="text-sm sm:text-[1rem]" htmlFor="22">Simulador</label>
-              </div>
-              <div>
-                <input type="checkbox" id='23' value={23} />
-                <label className="text-sm sm:text-[1rem]" htmlFor="23">Sobrevivência</label>
-              </div>
-              <div>
-                <input type="checkbox" id='24' value={24} />
-                <label className="text-sm sm:text-[1rem]" htmlFor="24">Terror</label>
-              </div>
+              {data?.slice(13, 25).map((item) => (
+                <div key={item.id}>
+                  <input type="checkbox" id={item.id} value={item.id} onChange={handleChange} />
+                  <label className="text-sm sm:text-[1rem]" htmlFor={item.id}>{item.attributes.title}</label>
+                </div>))}
             </div>
         </div>
         <div className='mb-4'>
-          <h2 className='font-bold mb-2'>Modos de jogador</h2>
-          <div>
-            <input type="checkbox" id='1' value={1} />
-            <label className="text-sm sm:text-[1rem]" htmlFor="1">Multijogador</label>
-          </div>
-          <div>
-            <input type="checkbox" id='2' value={2} />
-            <label className="text-sm sm:text-[1rem]" htmlFor="2">Online</label>
-          </div>
-          <div>
-            <input type="checkbox" id='3' value={3} />
-            <label className="text-sm sm:text-[1rem]" htmlFor="3">Um jogador</label>
-          </div>
+          {gameMode && gameMode.length > 0 && (
+            <h2 className='font-bold mb-2'>Modos de jogador</h2>
+          )}
+          {gameMode?.map((item) => (
+                <div key={item.id}>
+                  <input type="checkbox" id={item.id} value={item.id} onChange={handleChange} />
+                  <label className="text-sm sm:text-[1rem]" htmlFor={item.id}>{item.attributes.title}</label>
+          </div>))}
         </div>
         <div className='mb-4'>
           <h2 className='font-bold mb-2'>Filtrar por preço</h2>
@@ -160,7 +75,7 @@ const Products = () => {
 
       <div className='flex-[3]'>
         <Link to="/produto/1" className='sm:w-[100%] sm:h-[300px] hidden md:contents'><img className='bg-cover mb-[50px]' src="https://images.igdb.com/igdb/image/upload/t_original/ar6rp.jpg" alt="" /></Link>
-        <List categoryId={categoryId} maxPrice={maxPrice} sort={sort} />
+        <List categoryId={categoryId} maxPrice={maxPrice} sort={sort} subCats={selectedSubCats} />
       </div>
     </div>
   )

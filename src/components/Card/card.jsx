@@ -22,7 +22,7 @@ const Card = ({ item }) => {
 
   // Os caminhos foram pegos no console.log
   // Attributes foram adicionados depois do item pois é a ordem que a api do strapi funciona, id: 1 => attributes => isNew, oldPrice, price, etc.
-  // Em imagem é id: 1 => attributes => img => data => attributes => url
+  // Em imagem é id: 1 => attributes => img, img2, etc. => data => attributes => url
 }
 
 export default Card
