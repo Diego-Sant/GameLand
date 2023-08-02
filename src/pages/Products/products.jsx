@@ -1,19 +1,17 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import List from '../../components/List/list'
 import { Link, useParams } from 'react-router-dom'
 import useFetch from '../../hooks/useFetch'
 
 const Products = () => {
   const [maxPrice, setMaxPrice] = useState(400)
-  const [sort, setSort] = useState(null);
+  const [sort, setSort] = useState("asc");
   const [selectedSubCats, setSelectedSubCats] = useState([])
 
   const categoryId = parseInt(useParams().id)
 
-  const { data, loading, error } = useFetch(`/sub-categorias?[filters][categorias][id][$eq]=${categoryId}`)
+  const { data } = useFetch(`/sub-categorias?[filters][categorias][id][$eq]=${categoryId}`)
   const { gameMode } = useFetch(`/game-modes?[filters][categorias][id][$eq]=${categoryId}`)
-
-  console.log(gameMode)
 
   const handleChange = (e) => {
     const value = e.target.value;
@@ -23,10 +21,10 @@ const Products = () => {
   )}
 
   return (
-    <div className='flex bg-[#121212] py-[30px] px-[50px]'>
+    <div className='flex flex-col-reverse sm:flex-row gap-y-10 sm:gap-y-0 bg-[#121212] py-[30px] px-[50px]'>
       <div className='flex-[1] mr-12 -ml-6'>
       <h2 className='font-bold mb-2'>Categorias</h2>
-        <div className='mb-4 flex flex-col xl:flex-row gap-x-4'>
+        <div className='mb-4 flex flex-row w-[350px] sm:w-full justify-between sm:flex-col xl:flex-row'>
             <div>
               {data?.slice(0, 12).map((item) => (
               <div key={item.id}>
@@ -63,11 +61,11 @@ const Products = () => {
         <div>
           <h2 className='font-bold mb-2'>Ordenar por:</h2>
           <div>
-            <input type="radio" id="asc" value="asc" name='price' onChange={(e) => setSort("asc")} />
+            <input type="radio" id="asc" value="asc" name='price' onChange={(e) => setSort("ASC")} />
             <label className="text-sm sm:text-[1rem]" htmlFor="asc">Menor preço</label>
           </div>
           <div>
-            <input type="radio" id="desc" value="desc" name='price' onChange={(e) => setSort("desc")} />
+            <input type="radio" id="desc" value="desc" name='price' onChange={(e) => setSort("DESC")} />
             <label className="text-sm sm:text-[1rem]" htmlFor="desc">Maior preço</label>
           </div>
         </div>

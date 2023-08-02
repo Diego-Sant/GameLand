@@ -6,13 +6,13 @@ const List = ({ categoryId, subCats, maxPrice, sort }) => {
   const { data, loading, error } = useFetch(
     `/produtos?populate=*&[filters][categorias][id]=${categoryId}${subCats.map(
       (item) => `&[filters][sub_categorias][id][$eq]=${item}`
-    )}`
+    )}&[filters][price][$lte]=${maxPrice}&sort=id:${sort}`
   );
 
   const { gameMode } = useFetch(
     `/produtos?populate=*&[filters][categorias][id]=${categoryId}${subCats.map(
       (item) => `&[filters][game_modes][id][$eq]=${item}`
-    )}`
+    )}&[filters][price][$lte]=${maxPrice}&sort=id:${sort}`
   );
 
   const [combinedResults, setCombinedResults] = useState([]);
@@ -27,13 +27,13 @@ const List = ({ categoryId, subCats, maxPrice, sort }) => {
   }, [gameMode, data]);
 
   return (
-    <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-items-center'>
+    <div className={`grid sm:grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 justify-items-center ${loading || error ? 'grid sm:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1' : ''}`}>
       {error ? (
         'Algo de errado aconteceu. Tente novamente mais tarde!'
       ) : loading ? (
         <div className='custom-loader'></div>
       ) : (
-        combinedResults.map((item) => <Card item={item} key={item.id} />)
+        combinedResults?.map((item) => <Card item={item} key={item.id} />)
       )}
     </div>
   );
