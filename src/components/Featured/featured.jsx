@@ -15,9 +15,9 @@ const Featured = ({ type }) => {
             <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 justify-items-center ${loading || error ? 'grid sm:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1' : ''}`}>
                 {error ? "Algo de errado aconteceu. Tente novamente mais tarde!" 
                 : (loading ? <div className="custom-loader"></div> 
-                : data.map((item) => (
+                : (data && data.map((item) => (
                     <Card item={item} key={item.id} />
-                )))}
+                ))))}
             </div>
         </div>
     </div>
