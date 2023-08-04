@@ -1,5 +1,6 @@
 import { EastOutlined, WestOutlined } from '@mui/icons-material';
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom';
 
 const Slider = () => {
     const [currentSlide, setCurrentSlide] = useState(0);
@@ -21,7 +22,7 @@ const Slider = () => {
   return (
     <div className='w-full h-[calc(100vh-80px)] relative overflow-hidden'>
         <div className='flex w-[300vw] h-[100%] transition-all duration-1000 ease-in-out ' style={{transform:`translateX(-${currentSlide * 100}vw)`}}>
-            <img className='w-[100vw] h-[100%] object-cover' style={{objectPosition:"75% 25%"}} src={data[0]} alt="Red Dead Redemption 2" />
+            <Link to={"http://localhost:3000/produto/4"}><img className='w-[100vw] h-[100%] object-cover'  style={{objectPosition:"75% 25%"}} src={data[0]} alt="Red Dead Redemption 2" /></Link>
             <img className='w-[100vw] h-[100%] object-cover' src={data[1]} alt="Ratchet & Clank: Uma dimensão à parte" />
             <img className='w-[100vw] h-[100%] object-cover' style={{objectPosition:"65% 15%"}} src={data[2]} alt="EA SPORTS™ FIFA 23" />
         </div>

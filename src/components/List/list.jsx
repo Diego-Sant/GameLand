@@ -2,17 +2,17 @@ import React, { useEffect, useState } from 'react';
 import Card from '../Card/card';
 import useFetch from '../../hooks/useFetch';
 
-const List = ({ categoryId, subCats, maxPrice, sort }) => {
+const List = ({ categoryId, subCats, maxPrice }) => {
   const { data, loading, error } = useFetch(
     `/produtos?populate=*&[filters][categorias][id]=${categoryId}${subCats.map(
       (item) => `&[filters][sub_categorias][id][$eq]=${item}`
-    )}&[filters][price][$lte]=${maxPrice}&sort=id:${sort}`
+    )}&[filters][price][$lte]=${maxPrice}`
   );
 
   const { gameMode } = useFetch(
     `/produtos?populate=*&[filters][categorias][id]=${categoryId}${subCats.map(
       (item) => `&[filters][game_modes][id][$eq]=${item}`
-    )}&[filters][price][$lte]=${maxPrice}&sort=id:${sort}`
+    )}&[filters][price][$lte]=${maxPrice}`
   );
 
   const [combinedResults, setCombinedResults] = useState([]);
@@ -26,14 +26,30 @@ const List = ({ categoryId, subCats, maxPrice, sort }) => {
     setCombinedResults(uniqueResults);
   }, [gameMode, data]);
 
+  const shuffleArray = (array) => {
+    let currentIndex = array.length, randomIndex;
+
+    while (currentIndex !== 0) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+
+      [array[currentIndex], array[randomIndex]] = [
+        array[randomIndex],
+        array[currentIndex],
+      ];
+    }
+
+    return array;
+  };
+
   return (
-    <div className={`grid sm:grid-cols-1 lg:grid-cols-3 xl:grid-cols-4 justify-items-center ${loading || error ? 'grid sm:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1' : ''}`}>
+    <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-items-center ${loading || error ? 'grid sm:grid-cols-1 lg:grid-cols-1 xl:grid-cols-1' : ''}`}>
       {error ? (
         'Algo de errado aconteceu. Tente novamente mais tarde!'
       ) : loading ? (
         <div className='custom-loader'></div>
       ) : (
-        combinedResults?.map((item) => <Card item={item} key={item.id} />)
+        shuffleArray(combinedResults)?.map((item) => <Card item={item} key={item.id} />)
       )}
     </div>
   );

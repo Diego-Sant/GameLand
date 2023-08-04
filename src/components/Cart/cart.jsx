@@ -37,7 +37,7 @@ const Cart = () => {
         <h1 className='text-xl font-bold mb-6'>Produtos no carrinho</h1>
         {products?.map((item) => (
             <div key={item.id} className='flex items-center gap-[20px] mb-[30px]'>
-                <Link className='w-fit min-w-[80px]' to={"http://localhost:3000/produto/" + item.id} ><img src={process.env.REACT_APP_UPLOAD_URL + item.img} alt={item.title} /></Link>
+                <Link className='w-fit min-w-[80px] max-w-[80px]' to={"/produto/" + item.id} ><img src={process.env.REACT_APP_UPLOAD_URL + item.img} alt={item.title} /></Link>
                 <div className='flex-grow'>
                     <h1 className='font-bold text-ellipsis line-clamp-2'>{item.title}</h1>
                     <p className='text-ellipsis line-clamp-2'>{item.desc}</p>

@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import List from '../../components/List/list'
-import { Link, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import useFetch from '../../hooks/useFetch'
 
 const Products = () => {
-  const [maxPrice, setMaxPrice] = useState(400)
-  const [sort, setSort] = useState("asc");
+  const id = useParams().id
+  const [maxPrice, setMaxPrice] = useState(400);
   const [selectedSubCats, setSelectedSubCats] = useState([])
 
   const categoryId = parseInt(useParams().id)
@@ -19,6 +19,14 @@ const Products = () => {
 
     setSelectedSubCats(isChecked ? [...selectedSubCats, value] : selectedSubCats.filter((item) => item !== value)
   )}
+
+  const handleMaxPriceChange = (e) => {
+    setMaxPrice(e.target.value);
+  };
+
+  const { data: dataCategory } = useFetch(
+    `/categorias/${id}?populate=*`
+  );
 
   return (
     <div className='flex flex-col-reverse sm:flex-row gap-y-10 sm:gap-y-0 bg-[#121212] py-[30px] px-[50px]'>
@@ -54,26 +62,15 @@ const Products = () => {
           <h2 className='font-bold mb-2'>Filtrar por preço</h2>
           <div className='flex flex-col sm:flex-row sm:items-center'>
             <span>R$0</span>
-            <input type="range" min={0} max={400} className='rangeInput' onChange={(e) => setMaxPrice(e.target.value)} />
+            <input type="range" min={0} max={400} className='rangeInput' onMouseUp={handleMaxPriceChange} />
             <span>R${maxPrice}</span>
-          </div>
-        </div>
-        <div>
-          <h2 className='font-bold mb-2'>Ordenar por:</h2>
-          <div>
-            <input type="radio" id="asc" value="asc" name='price' onChange={(e) => setSort("ASC")} />
-            <label className="text-sm sm:text-[1rem]" htmlFor="asc">Menor preço</label>
-          </div>
-          <div>
-            <input type="radio" id="desc" value="desc" name='price' onChange={(e) => setSort("DESC")} />
-            <label className="text-sm sm:text-[1rem]" htmlFor="desc">Maior preço</label>
           </div>
         </div>
       </div>
 
       <div className='flex-[3]'>
-        <Link to="/produto/1" className='sm:w-[100%] sm:h-[300px] hidden md:contents'><img className='bg-cover mb-[50px]' src="https://images.igdb.com/igdb/image/upload/t_original/ar6rp.jpg" alt="" /></Link>
-        <List categoryId={categoryId} maxPrice={maxPrice} sort={sort} subCats={selectedSubCats} />
+        <div className='md:flex justify-center items-center hidden'><img className='bg-cover mb-[50px] xl:max-w-[880px] xl:min-w-[880px] 2xl:max-w-[1100px] 2xl:min-w-[1100px] 3xl:max-w-[1300px] 3xl:min-w-[1300px]' src={process.env.REACT_APP_UPLOAD_URL + dataCategory?.attributes?.img?.data?.attributes?.url} alt={dataCategory?.attributes?.img?.data?.title} /></div>
+        <List categoryId={categoryId} maxPrice={maxPrice} subCats={selectedSubCats} />
       </div>
     </div>
   )
