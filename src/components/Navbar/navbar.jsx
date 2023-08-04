@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Button, Menu, MenuItem } from '@mui/material';
 import { Link } from 'react-router-dom'
 
@@ -6,12 +6,17 @@ import { Search, PersonOutlineOutlined, FavoriteBorderOutlined, ShoppingCartOutl
 import { BsPlaystation, BsXbox, BsNintendoSwitch } from 'react-icons/bs';
 import Cart from '../Cart/cart';
 import Favorite from '../Favorite/favorite';
+import { useSelector } from 'react-redux';
 
 const Navbar = () => {
   const [isDesktop, setIsDesktop] = useState(window.innerWidth <= 1200);
   const [anchorEl, setAnchorEl] = useState(null);
   const [cartOpen, setCartOpen] = useState(false);
   const [favoriteOpen, setFavoriteOpen] = useState(false);
+
+  const products = useSelector(state => state.cart.products);
+
+  const containerRef = useRef(null);
 
   useEffect(() => {
     const handleResize = () => {
@@ -22,6 +27,21 @@ const Navbar = () => {
 
     return () => {
       window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleDocumentClick = (event) => {
+      if (containerRef.current && !containerRef.current.contains(event.target)) {
+        setCartOpen(false);
+        setFavoriteOpen(false);
+      }
+    };
+
+    document.addEventListener('click', handleDocumentClick);
+
+    return () => {
+      document.removeEventListener('click', handleDocumentClick);
     };
   }, []);
 
@@ -60,7 +80,7 @@ const Navbar = () => {
   ];
 
   return (
-    <div className='bg-[#1f1f1f] py-2'>
+    <div className='bg-[#1f1f1f] py-2' ref={containerRef}>
       <div className='flex justify-between'>
         <div className='flex items-center gap-x-4'>
 
@@ -119,7 +139,7 @@ const Navbar = () => {
               </div>
               <div className='relative' onClick={handleCartClick}>
                 <ShoppingCartOutlined />
-                <span className='flex justify-center items-center absolute -right-[10px] -top-[10px] text-[16px] w-[20px] h-[20px] bg-[#8900ff] rounded-full'>0</span>
+                <span className='flex justify-center items-center absolute -right-[10px] -top-[10px] text-[16px] w-[20px] h-[20px] bg-[#8900ff] rounded-full'>{products.length}</span>
               </div>
             </div>
         </div>
